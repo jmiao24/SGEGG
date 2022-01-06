@@ -161,6 +161,13 @@ The final result of GxG analysis has the following fields:
 | P_I | The P-value for testing interaction effects |
 | N | Sample size |
 
+## Citation
+
+If you use SGEGG, please cite
+
+Miao, J., Lin, Y., Wu, Y., Zheng, B., Schmitz, L. L., Fletcher, J. M., & Lu, Q. (2021). [A quantile integral linear model to quantify genetic effects on phenotypic variability.](https://www.biorxiv.org/content/10.1101/2021.04.14.439847v1) bioRxiv, 2021.2004.2014.439847
+
+
 
 ## License
 
