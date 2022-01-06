@@ -63,7 +63,7 @@ FID	IID	sex	age	pc1
 The input Covariate file needs to be an n x 3 table, where n is the sample size. The columns in order are the FID, IID, and the Environment/SNP for interaction test. Here is an example of the phenotype file `interaction.txt`:
 
 ```
-FID	IID	E
+FID	IID	I
 1	1	1
 2	2	0
 3	3	1
