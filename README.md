@@ -22,8 +22,8 @@ The software is developed using R and tested in Linux environments. The statisti
 You can download QUAIL by:
 
 ```
-$ git clone https://github.com/jmiao24/Simple_GxE_GxG
-$ cd ./Simple_GxE_GxG
+$ git clone https://github.com/jmiao24/SGEGG
+$ cd ./SGEGG
 ```
 
 
