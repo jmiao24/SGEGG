@@ -150,12 +150,12 @@ The final result of GxG analysis has the following fields:
 | A1 | Allele 1 (effect allele) |
 | A2 | Allele 2 (non-effect allele) |
 | FREQ | allele frequency of allele 1 |
-| BETA_G1 | The estimated effect size for variable of interaction main effects |
-| SE_G1 | The estimated standard error of BETA_G1 for variable of interaction main effects  |
-| P_G1 | The P-value for variable of interaction main effects  |
-| BETA_G2 | The estimated effect size for SNPs in the geno file |
-| SE_G2 | The estimated standard error of BETA_G2 for SNPs in the geno file |
-| P_G2 | The P-value for SNPs in the geno file |
+ | BETA_G1 | The estimated effect size for SNPs in the geno file |
+| SE_G1 | The estimated standard error of BETA_G1 for SNPs in the geno file |
+| P_G1 | The P-value for SNPs in the geno file |
+| BETA_G2 | The estimated effect size for variable of interaction main effects |
+| SE_G2 | The estimated standard error of BETA_G2 for variable of interaction main effects  |
+| P_G2 | The P-value for variable of interaction main effects  |
 | BETA_I | The estimated effect size of interaction |
 | SE_I | The estimated standard error of interaction |
 | P_I | The P-value for testing interaction effects |
