@@ -86,7 +86,7 @@ The input genotype file needs to be in the plink bed/bim/fam format. The path on
 #### Example:
 The following script perform genome-wide GxE interaction analysis from the `1`-`1000` SNPs in plink genotype file `geno` for phenotype `pheno.txt`.  This analysis adjusted the covaraites in `covar.txt` and `5` cores are used for parallel computing. 
 ```bash
-$ Rscript QUAIL_vQTL.R \
+$ Rscript SGEGG.R \
   --pheno pheno.txt \
   --geno geno \
   --covar covar.txt \
