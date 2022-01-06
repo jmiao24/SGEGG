@@ -60,7 +60,7 @@ FID	IID	sex	age	pc1
 
 ### Environment/SNP file for interaction analysis
 
-The input Covariate file needs to be an n x 3 table, where n is the sample size. The columns in order are the FID, IID, and the Environment/SNP for interaction test. Here is an example of the phenotype file `interaction.txt`:
+The input Covariate file needs to be an n x 3 table, where n is the sample size. The columns in order are the FID, IID, and the Environment/SNP for interaction test **(Note: the third colnams of the table must be `I`)**. Here is an example of the phenotype file `interaction.txt`:
 
 ```
 FID	IID	I
