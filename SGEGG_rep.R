@@ -3,6 +3,7 @@ suppressMessages(require(data.table))
 suppressMessages(require(parallel))
 suppressMessages(library(optparse))
 suppressMessages(library(BEDMatrix))
+suppressMessages(library(lme4))
 
 
 options(stringsAsFactors = F)
@@ -38,6 +39,15 @@ type <- opt$type
 snp_start <- opt$start
 snp_end <- opt$end
 
+# phenotype <- "/z/Comp/lu_group/Members/jmiao24/Collaboration/Lauren/Lauren_LHS/10_SGEGG_Rep/data/pheno/bmi_rep_pheno.txt"
+# genotype <- "/z/Comp/lu_group/Members/jmiao24/Collaboration/Lauren/Lauren_LHS/8_run_GxE/data/geno/lunghealth_imputed_hm3_qced"
+# covariate <- "/z/Comp/lu_group/Members/jmiao24/Collaboration/Lauren/Lauren_LHS/8_run_GxE/data/pheno/covar.txt"
+# interaction_file <- "/z/Comp/lu_group/Members/jmiao24/Collaboration/Lauren/Lauren_LHS/8_run_GxE/data/pheno/E.txt"
+# output <- "/z/Comp/lu_group/Members/jmiao24/Collaboration/Lauren/Lauren_LHS/8_run_GxE/results/sumstats_tmp/bmi/sumstats_1.txt"
+# num_cores <- 1
+# type <- "GxE"
+# start <- 1
+# end <- 10
 
 geno_bed <- suppressMessages(BEDMatrix((paste0(genotype, ".bed"))))
 geno_bim <- fread(paste0(genotype, ".bim"))
@@ -59,11 +69,11 @@ IID <- gsub(pattern = paste0(".*_(.*)"), rownames(geno_bed), replacement = "\\1"
 IID_overlap <- intersect(pheno$IID, IID)
 IID_overlap <- intersect(covar$IID, IID_overlap)
 IID_overlap <- intersect(interaction$IID, IID_overlap)
-index_pheno <- match(IID_overlap, pheno$IID)
-index_covar <- match(IID_overlap, covar$IID)
-index_interaction <- match(IID_overlap, interaction$IID)
-index_geno <- match(IID_overlap, IID)
-pheno_lm <- pheno[index_pheno, ]
+pheno_lm <- pheno[pheno$IID %in% IID_overlap, ]
+
+index_covar <- match(pheno_lm$IID, covar$IID)
+index_interaction <- match(pheno_lm$IID, interaction$IID)
+index_geno <- match(pheno_lm$IID, IID)
 covar_lm <- as.data.frame(covar[index_covar, 3:ncol(covar)])
 interaction_lm <- as.data.frame(interaction[index_interaction, 3:3])
 colnames(interaction_lm) <- "I"
@@ -132,19 +142,22 @@ SGEGG <- function(i){
     # Calculate MAF
     maf <- sqrt(sum(df_cb$SNP == 2, na.rm=T)/sum(!is.na(df_cb$SNP)))
 
-    predictors <- paste0(c("SNP", covar_names), "*I")
-    f1 <- as.formula(paste(paste(pheno_names, paste(predictors, collapse = " + "), sep = " ~ ")))
+    # Add E*covar interaction
+    predictors_I <- paste0(c("SNP", covar_names), "*I")
+    f1 <- as.formula(paste(paste(pheno_names, paste("(1|IID)+" , paste(predictors_I, collapse = " + ")), sep = " ~ ")))
 
-    fit <- lm(f1, data = df_cb)
-    coeff <- summary(lm(f1, data = df_cb))$coefficients 
+    fit <- lmer(f1, data = df_cb)
+    # coeff <- summary(lm(f1, data = df_cb))$coefficients 
+    summ <-  summary(fit)
+    coeff <- summ$coefficients 
     ind1 <- which(rownames(coeff) == "SNP")
     ind2 <- which(rownames(coeff) == "I")
     ind3 <- which(rownames(coeff) == "SNP:I")
     SGEGG_results <- data.frame(chr, snp_name, bp, a1, a2, maf, 
-    beta_M = coeff[ind1, 1], SE_M = coeff[ind1, 2], P_M = coeff[ind1, 4],
-    beta_E = coeff[ind2, 1],SE_E = coeff[ind2, 2], P_E = coeff[ind2, 4],
-    beta_I = coeff[ind3, 1], SE_I = coeff[ind3, 2], P_I = coeff[ind3, 4],
-    N = length(fit$fitted.values))
+    beta_M = coeff[ind1, 1], SE_M = coeff[ind1, 2], P_M = 2*pnorm(abs(coeff[ind1, 1]/coeff[ind1, 2]), 0, 1, lower.tail = F),
+    beta_E = coeff[ind2, 1],SE_E = coeff[ind2, 2], P_E = 2*pnorm(abs(coeff[ind2, 1]/coeff[ind2, 2]), 0, 1, lower.tail = F),
+    beta_I = coeff[ind3, 1], SE_I = coeff[ind3, 2], P_I = 2*pnorm(abs(coeff[ind3, 1]/coeff[ind3, 2]), 0, 1, lower.tail = F),
+    N_rep = length(summ$residuals), N = summ$ngrps)
     return(SGEGG_results)
 }
 
