@@ -3,7 +3,7 @@
 
 ## Introduction
 
-SGEGG(Simple_GxE_GxG) is a in-house software to run linear regression for genome-wide GxE or GxG analysis. 
+SGEGG(Simple_GxE_GxG) is an in-house software to run linear regression for genome-wide GxE or GxG analysis. 
 
 ## Updates
 - Jan 6, 2022: Initial release. Release the codes for Genome-wide GxG and GxE analysis.
@@ -17,9 +17,9 @@ The software is developed using R and tested in Linux environments. The statisti
 * [parallel](https://stat.ethz.ch/R-manual/R-devel/library/parallel/doc/parallel.pdf) (>=3.5.1)
 * [BEDMatrix](https://cran.r-project.org/web/packages/BEDMatrix/index.html) (>=2.0.3)
 
-## Download QUAIL
+## Download SGEGG
 
-You can download QUAIL by:
+You can download SGEGG by:
 
 ```
 $ git clone https://github.com/jmiao24/SGEGG
@@ -60,10 +60,10 @@ FID	IID	sex	age	pc1
 
 ### Environment/SNP file for interaction analysis
 
-The input Covariate file needs to be an n x 3 table, where n is the sample size. The columns in order are the FID, IID, and the Environment/SNP for interaction test **(Note: the third colnams of the table must be `I`)**. Here is an example of the phenotype file `interaction.txt`:
+The input Covariate file needs to be an n x 3 table, where n is the sample size. The columns in order are the FID, IID, and the Environment/SNP for interaction test. Here is an example of the phenotype file `interaction.txt`:
 
 ```
-FID	IID	I
+FID	IID	E
 1	1	1
 2	2	0
 3	3	1
@@ -160,6 +160,13 @@ The final result of GxG analysis has the following fields:
 | SE_I | The estimated standard error of interaction |
 | P_I | The P-value for testing interaction effects |
 | N | Sample size |
+
+## Citation
+
+If you use SGEGG, please cite
+
+Miao, J., Lin, Y., Wu, Y., Zheng, B., Schmitz, L. L., Fletcher, J. M., & Lu, Q. (2021). [A quantile integral linear model to quantify genetic effects on phenotypic variability.](https://www.biorxiv.org/content/10.1101/2021.04.14.439847v1) bioRxiv, 2021.2004.2014.439847
+
 
 
 ## License
