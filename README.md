@@ -3,7 +3,7 @@
 
 ## Introduction
 
-SGEGG(Simple_GxE_GxG) is an in-house software to run linear regression for genome-wide GxE or GxG analysis. 
+SGEGG(Simple_GxE_GxG) is an in-house software to run linear regression or linear mixed model for genome-wide GxE or GxG analysis. 
 
 ## Updates
 - Feb 16, 2022: Add the GxG or GxE analysis for repeated measure; Add E * covariate interaction when performing genome-wide GxE analysis.
